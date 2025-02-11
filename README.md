@@ -28,3 +28,6 @@ Yes, I will take requests but, there's no guarentee on when or if.
 I myself have used this and tested it many times and it works 100% and so far has been 100% correct with its answers....if not, please let me know.
 
 I used Python version: 3.12.6 when I made this (11FEB2025)
+
+If you'd like to show some support for my work and buy me a coffee, please click on the link below and have fun! THANK YOU!
+https://buymeacoffee.com/rapsavage1
