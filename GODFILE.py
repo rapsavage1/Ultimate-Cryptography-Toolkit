@@ -1,10 +1,13 @@
 import string
+import sympy
 import glob
 import math
+import hashlib
+import itertools
+import google.generativeai as genai
 from collections import Counter
 from cryptography.fernet import Fernet
-from sympy import mod_inverse  # Used in some parts
-
+from sympy import mod_inverse
 #########################
 # 1. Caesar Cipher
 #########################
@@ -42,7 +45,6 @@ def index_of_coincidence_menu():
     for letter in string.ascii_uppercase:
         print(f"{letter}: {letter_counts.get(letter, 0)}")
     print(f"\nIndex of Coincidence: {ic:.6f}")
-
 #########################
 # 3. Kasiski Analysis
 #########################
@@ -92,11 +94,9 @@ def kasiski_menu():
             print(f"Probable key length: {probable_key_length}")
     else:
         print("No repeated sequences found.")
-
 #########################
 # 4. Symmetric Module
 #########################
-# --- Symmetric Encryption Functions ---
 def generate_key():
     """Generate a key and save it to 'secret.key'."""
     key = Fernet.generate_key()
@@ -200,7 +200,6 @@ def symmetric_module_menu():
         symmetric_keys_menu()
     else:
         print("Invalid choice in symmetric module.")
-
 #########################
 # 5. Knapsack Cryptosystem Tool
 #########################
@@ -325,8 +324,6 @@ def knapsack_tool_menu():
 #########################
 # 6. RSA
 #########################
-import sympy
-
 def compute_private_exponent():
     """Compute the private exponent d given p, q, and e."""
     p = int(input("Enter prime number p: "))
@@ -480,7 +477,6 @@ def expansion_permutation_menu():
          24, 25, 26, 27, 28, 29,
          28, 29, 30, 31, 32,  1
     ]
-
     expanded_bin = permute(right_half, E_TABLE)
     expanded_hex = bin_to_hex(expanded_bin, group_size=8)
 
@@ -495,7 +491,6 @@ def pc2_permutation_menu():
     if not ascii_key:
         print("Error: ASCII key cannot be empty.")
         return
-
     # Convert ASCII key to hex
     ascii_hex = string_to_ascii_hex(ascii_key)
     print("\nASCII to Hex Conversion:")
@@ -503,18 +498,14 @@ def pc2_permutation_menu():
         print(f"HEX Value {i}: {h}")
 
     key_bin = string_to_bin(ascii_key)
-
     # Ensure at least 56 bits for PC-2 (if input is too short, pad with zeros)
     if len(key_bin) < 56:
         key_bin = key_bin.ljust(56, '0')
-
     # Remove Parity Bits (Keep only 56 bits)
     if len(key_bin) >= 64:
         key_bin = remove_parity_bits(key_bin[:64])
-
     # Truncate to 56 bits (just in case)
     key_bin_56 = key_bin[:56]
-
     # 🔹 **Permuted Choice 2 (PC-2) Table**
     PC2_TABLE = [
          14, 17, 11, 24,  1,  5,
@@ -526,7 +517,6 @@ def pc2_permutation_menu():
          44, 49, 39, 56, 34, 53,
          46, 42, 50, 36, 29, 32
     ]
-
     # **Apply PC-2 Permutation**
     key_48_bin = permute(key_bin_56, PC2_TABLE)
 
@@ -615,18 +605,14 @@ S_BOX = [
     [0xE1, 0xF8, 0x98, 0x11, 0x69, 0xD9, 0x8E, 0x94, 0x9B, 0x1E, 0x87, 0xE9, 0xCE, 0x55, 0x28, 0xDF],
     [0x8C, 0xA1, 0x89, 0x0D, 0xBF, 0xE6, 0x42, 0x68, 0x41, 0x99, 0x2D, 0x0F, 0xB0, 0x54, 0xBB, 0x16]
 ]
-
 MIX_COLUMNS_MATRIX = [
     [0x02, 0x03, 0x01, 0x01],
     [0x01, 0x02, 0x03, 0x01],
     [0x01, 0x01, 0x02, 0x03],
     [0x03, 0x01, 0x01, 0x02]
 ]
-
 RCON = [0x01, 0x00, 0x00, 0x00]
-
 state = []
-
 # Function to apply S-box substitution to a state
 def get_input():
     print("Enter the state column by column (top to bottom, no spaces):")
@@ -635,12 +621,6 @@ def get_input():
         column = input(f"Enter column {i+1}: ")
         state.append([int(column[j:j+2], 16) for j in range(0, len(column), 2)])
     state = [list(row) for row in zip(*state)]
-
-    # print("Enter the matrix column by column (top to bottom, no spaces):")
-    # matrix = []
-    # for i in range(4):
-    #     column = input(f"Enter matrix column {i+1}: ")
-    #     matrix.append([int(column[j:j+2], 16) for j in range(0, len(column), 2)])
     
     return state
 
@@ -654,14 +634,7 @@ def input_matrix():
             print("Error: Each column must be 8 hex characters.")
             return None
         matrix.append([int(column[j:j+2], 16) for j in range(0, 8, 2)])
-    return matrix  # No need to transpose; matrix is used as-is in mix_columns
-
-# def print_state(state, label):
-#     """Print the state matrix in 2-digit hex format."""
-#     print(label)
-#     for i in range(4):
-#         for j in range(4):
-#             print(f"{chr(65+i)}{chr(65+j)} - {state[i][j]:02X}")
+    return matrix
 
 # GF(2^8) multiplication function
 def gmul(a, b):
@@ -718,13 +691,6 @@ def shift_rows(state):
 
     return state3
 
-# def xor_state_with_key(state, key):
-#     print("\nXORing State with Key (AddRoundKey):")
-#     for r in range(4):
-#         for c in range(4):
-#             state[r][c] ^= key[r][c]  # XOR operation
-#     return state
-
 def apply_sbox(state):
     print("\nApplying S-Box:")
     for r in range(4):
@@ -747,14 +713,6 @@ def add_round_key(state, round_key):
         for c in range(4):
             state[r][c] ^= round_key[r][c]  # XOR operation
     return state
-
-# def parse_state(state_input):
-#     """Parses a 32-character hexadecimal string into a 4x4 state matrix."""
-#     state = []
-#     for i in range(4):
-#         column = state_input[i*8:(i+1)*8]
-#         state.append([int(column[j:j+2], 16) for j in range(0, len(column), 2)])
-#     return [list(row) for row in zip(*state)]  # Transpose to form a 4x4 matrix
 
 def print_grid(result):
     print("\nResults:")
@@ -846,7 +804,6 @@ def add_round_keyV2():
         ['CC', 'GG', 'KK', 'OO'],
         ['DD', 'HH', 'LL', 'PP'],
     ]
-
     print("\nState 1 (State ⊕ Cipher Key):")
     for row in range(4):
         row_output = []
@@ -948,6 +905,53 @@ def aes_menu():
 #########################
 # 10. Main Menu
 #########################
+def blockchain():
+    hashes = [
+        bytes.fromhex("F7002A5259567B1F993E743D3128B6A97B153EACFC7BB914802DCFB43D23FA2E"),
+        bytes.fromhex("6E2B86DC5982F533C3A896E66B97D377D09E7988B7E27E9BE5DDBA9F34C325FC"),
+        bytes.fromhex("83AAB3327FFF40207AEB5919BD7FB06BAE953324FC71EE35816076CD6480334A"),
+        bytes.fromhex("0B794C734A46D75BE2EEE543F714E8D7E2D41D0549D4D8E1167B77B63080DE83"),
+        bytes.fromhex("EC40BD8242061EF401305485800CA5D63A9AB6DA659221A27C7BFAD3A9694E6C")
+    ]
+    expected_final = "254D0EFBF65B24BAA1F29CD09ED0D3F97810A11D044137953DD5FDF4C69B346D"
+
+    count = 0  # Count how many permutations we've checked
+
+    for perm in itertools.permutations(hashes):
+        count += 1
+        chain = hashlib.sha256()
+        for h in perm:
+            chain.update(h)
+        result = chain.hexdigest().upper()
+        
+        if result == expected_final:
+            print(f"\n✅ MATCH FOUND after {count} permutations!")
+            print("Permutation that works:")
+            for i, h in enumerate(perm, start=1):
+                print(f"Hash{i}: {h.hex().upper()}")
+            break
+    else:
+        print(f"\n❌ No matching permutation found after {count} total permutations.")
+#########################
+# 11. ElGoog
+#########################
+genai.configure(api_key="AIzaSyACbdOQ52M9PD_4kQ-XrsJnD9MlI6K1ZrQ")
+
+model = genai.GenerativeModel("gemini-1.5-pro-latest")
+def elGoog():
+    def ask_gemini(question):
+        response = model.generate_content(question)
+        return response.text
+
+    while True:
+        user_input = input("Ask a question (or type 'exit' to quit): ")
+        if user_input.lower() == "exit":
+            break
+        answer = ask_gemini(user_input)
+        print("\nGemini says:\n", answer, "\n")
+#########################
+# 12. Main Menu
+#########################
 def main():
     while True:
         print("\n=== Main Menu ===")
@@ -960,7 +964,9 @@ def main():
         print("7. RSA")
         print("8. Diffie")
         print("9. AES")
-        print("10. Exit")
+        print("10. Blockchain")
+        print("11. ElGoog")
+        print("12. Exit")
         choice = input("Enter your choice (1-10): ").strip()
         if choice == '1':
             caesar_cipher_menu()
@@ -990,6 +996,10 @@ def main():
         elif choice == '9':
             aes_menu()
         elif choice == '10':
+            blockchain()
+        elif choice == '11':
+            elGoog()
+        elif choice == '12':
             print("Exiting. Goodbye!")
             break
         else:
