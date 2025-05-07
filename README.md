@@ -43,6 +43,7 @@ Easter egg / obfuscated challenge (elgoog.py)
 This project is broken down into modular Python scripts that focus on individual steps or algorithms, making it easy to study and test each component separately. The GODFILE.py script can act as a centralized launcher or menu-based utility.
 
 🔧 Usage
+
 Each .py file can be run independently. To use the full toolkit with a guided interface, run:
 
 python GODFILE.py
