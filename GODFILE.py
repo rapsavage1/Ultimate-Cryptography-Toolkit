@@ -4,6 +4,8 @@ import glob
 import math
 import hashlib
 import itertools
+import time
+from google.api_core.exceptions import ResourceExhausted
 import google.generativeai as genai
 from collections import Counter
 from cryptography.fernet import Fernet
@@ -936,19 +938,30 @@ def blockchain():
 # 11. ElGoog
 #########################
 genai.configure(api_key="AIzaSyACbdOQ52M9PD_4kQ-XrsJnD9MlI6K1ZrQ")
+model = genai.GenerativeModel("gemini-2.0-flash")
 
-model = genai.GenerativeModel("gemini-1.5-pro-latest")
 def elGoog():
     def ask_gemini(question):
-        response = model.generate_content(question)
-        return response.text
+        retries = 3
+        delay = 30
+        for attempt in range(retries):
+            try:
+                response = model.generate_content(question)
+                return response.text
+            except ResourceExhausted:
+                print(f"[!] Quota exceeded (attempt {attempt + 1}/{retries}). Retrying in {delay} seconds...")
+                time.sleep(delay)
+        return "[!] Failed to get a response due to quota limits."
 
-    while True:
-        user_input = input("Ask a question (or type 'exit' to quit): ")
-        if user_input.lower() == "exit":
-            break
-        answer = ask_gemini(user_input)
-        print("\nGemini says:\n", answer, "\n")
+    try:
+        while True:
+            user_input = input("Ask a question (or type 'exit' to quit): ")
+            if user_input.lower() == "exit":
+                break
+            answer = ask_gemini(user_input)
+            print("\nGemini says:\n", answer, "\n")
+    except KeyboardInterrupt:
+        print("\n[!] Program interrupted by user. Exiting cleanly.\n")
 #########################
 # 12. Main Menu
 #########################
@@ -967,7 +980,8 @@ def main():
         print("10. Blockchain")
         print("11. ElGoog")
         print("12. Exit")
-        choice = input("Enter your choice (1-10): ").strip()
+        print("\n=== Created by Hunter Rapsavage ===")
+        choice = input("Enter your choice (1-12): ").strip()
         if choice == '1':
             caesar_cipher_menu()
         elif choice == '2':
