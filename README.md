@@ -46,6 +46,10 @@ This project is broken down into modular Python scripts that focus on individual
 
 Each .py file can be run independently. To use the full toolkit with a guided interface, run:
 
+"pip install -r requirements.txt"
+
+then
+
 python GODFILE.py
 
 🧠 Educational Purpose
