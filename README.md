@@ -2,7 +2,7 @@ A comprehensive Python-based cryptography suite for learning, experimenting, and
 
 ✨ Features
 
-Classical Encryption
+Classical Encryption:
 
 Caesar Cipher (CaeserCipher.py)
 
@@ -12,7 +12,7 @@ Multiplicative Cipher (Multiplicative.py)
 
 Knapsack Cipher (knapsack.py)
 
-Modern Encryption
+Modern Encryption:
 
 AES Encryption Workflow
 Includes modular scripts:
@@ -26,11 +26,11 @@ Diffie-Hellman Key Exchange (Diffie.py)
 
 Symmetric Key Encryption (Symmetric.py)
 
-Blockchain Basics
+Blockchain Basics:
 
 Simple blockchain model for educational purposes (Blockchain.py)
 
-Utilities
+Utilities:
 
 Key analysis and inverse matrix tools (InverseOfW.py)
 
