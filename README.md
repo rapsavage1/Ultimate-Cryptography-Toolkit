@@ -1,33 +1,62 @@
-The Ultimate Cryptography Toolkit (also known as the RAPSAVAGE GODFILE) is a comprehensive cryptographic tool designed to handle encryption, decryption, key analysis, and cryptographic computations. This all-in-one Python-based toolkit integrates multiple cryptographic algorithms and techniques, including Caesar Cipher, RSA, DES, Knapsack Cryptosystem, and Symmetric Encryption.
+A comprehensive Python-based cryptography suite for learning, experimenting, and analyzing various encryption algorithms and techniques. This toolkit is perfect for students, educators, cybersecurity enthusiasts, and developers who want hands-on experience with both classical and modern cryptographic methods.
 
-Whether you need to encrypt/decrypt messages, analyze cryptographic keys, compute modular inverses, or perform advanced cryptographic transformations, this toolkit provides a streamlined, interactive experience. It is perfect for students, cryptography enthusiasts, and cybersecurity professionals who need a reliable way to test, analyze, and work with encryption algorithms.
+✨ Features
+Classical Encryption
 
-🔹 Key Features:
-✔️ Caesar Cipher – Encrypt and decrypt messages with a shift-based cipher
-✔️ Index of Coincidence – Analyze text randomness for cryptanalysis
-✔️ Kasiski Analysis – Detect repeating sequences in ciphertext
-✔️ Symmetric & Asymmetric Encryption – Manage symmetric keys and RSA encryption/decryption
-✔️ Knapsack Cryptosystem – Compute hard knapsacks and encrypt/decrypt binary messages
-✔️ RSA Cryptosystem – Compute private keys, encrypt, and decrypt messages
-✔️ DES Step 1-5 – Perform ASCII-to-hex conversion, initial/expansion permutation, and key scheduling
-✔️ Fully Interactive Menu – Navigate and select cryptographic functions effortlessly
+Caesar Cipher (CaeserCipher.py)
 
-🔹 Why Use This Toolkit?
-🔑 All-in-One Cryptography Suite – No need for multiple scripts; everything is integrated
-🚀 Easy to Use – Step-by-step interactive inputs for all cryptographic operations
-🔍 Educational & Practical – Useful for cryptography courses, CTF competitions, and security research
-🔐 Supports Modern Encryption Standards – Includes both classical and modern cryptographic methods
+Vigenère Cipher Analysis (e.g., Kasiski.py, IndexOfCoincidence.py)
 
-This toolkit is a must-have for anyone working with cryptography. Whether you're analyzing text for hidden patterns, encrypting sensitive data, or breaking down complex key transformations, this script provides everything you need in one place.
+Multiplicative Cipher (Multiplicative.py)
 
-🔹 Side Notes
-The godfile contains evrything. Every other file is their own seperate thing. So if you just need one you can use that without having to use the godfile.
-I made this in Visual Studio Code.
-This is a work in progress meaning, there will be more to come.
-Yes, I will take requests but, there's no guarentee on when or if.
-I myself have used this and tested it many times and it works 100% and so far has been 100% correct with its answers....if not, please let me know.
+Knapsack Cipher (knapsack.py)
 
-I used Python version: 3.12.6 when I made this (11FEB2025)
+Modern Encryption
 
-If you'd like to show some support for my work and buy me a coffee, please click on the link below and have fun! THANK YOU!
-https://buymeacoffee.com/rapsavage1
+AES Encryption Workflow
+Includes modular scripts:
+1to2.py, 2to3.py, 3to4.py, State4ToCiphertext.py, AES.py
+
+DES Algorithm (DES.py)
+
+RSA Algorithm (RSA.py)
+
+Diffie-Hellman Key Exchange (Diffie.py)
+
+Symmetric Key Encryption (Symmetric.py)
+
+Blockchain Basics
+
+Simple blockchain model for educational purposes (Blockchain.py)
+
+Utilities
+
+Key analysis and inverse matrix tools (InverseOfW.py)
+
+All-in-one orchestrator script (GODFILE.py)
+
+Easter egg / obfuscated challenge (elgoog.py)
+
+📁 Structure
+This project is broken down into modular Python scripts that focus on individual steps or algorithms, making it easy to study and test each component separately. The GODFILE.py script can act as a centralized launcher or menu-based utility.
+
+🔧 Usage
+Each .py file can be run independently. To use the full toolkit with a guided interface, run:
+
+bash
+Copy
+Edit
+python GODFILE.py
+🧠 Educational Purpose
+This toolkit was created to help understand the core principles behind cryptographic algorithms by walking through transformations step-by-step. It’s ideal for:
+
+Cybersecurity students
+
+Cryptography researchers
+
+Developers building secure systems
+
+Hobbyists learning how encryption works
+
+📜 License
+This project is licensed under the MIT License. See the LICENSE file for more details.
