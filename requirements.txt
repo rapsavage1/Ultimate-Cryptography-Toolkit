@@ -1,0 +1,4 @@
+sympy
+google-api-core
+google-generativeai
+cryptography
